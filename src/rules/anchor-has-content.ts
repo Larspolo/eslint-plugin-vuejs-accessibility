@@ -2,12 +2,39 @@ import type { Rule } from "eslint";
 
 import {
   defineTemplateBodyVisitor,
+  getElementAttributeValue,
   getElementType,
   hasAriaLabel,
   hasContent,
+  hasOnDirectives,
   makeDocsURL,
   makeKebabCase
 } from "../utils";
+
+const interactiveHandlers = [
+  "click",
+  "contextmenu",
+  "dblclick",
+  "doubleclick",
+  "drag",
+  "dragend",
+  "dragenter",
+  "dragexit",
+  "dragleave",
+  "dragover",
+  "dragstart",
+  "drop",
+  "keydown",
+  "keypress",
+  "keyup",
+  "mousedown",
+  "mouseenter",
+  "mouseleave",
+  "mousemove",
+  "mouseout",
+  "mouseover",
+  "mouseup",
+];
 
 const rule: Rule.RuleModule = {
   meta: {
@@ -56,6 +83,7 @@ const rule: Rule.RuleModule = {
         if (
           elementTypes.includes(elementType) &&
           !hasContent(node, accessibleChildTypes, accessibleDirectives) &&
+          (hasOnDirectives(node, interactiveHandlers) || getElementAttributeValue(node, "href")) &&
           !hasAriaLabel(node)
         ) {
           context.report({ node: node as any, messageId: "default" });

@@ -37,7 +37,7 @@ const rule = {
                     },
                 }
             }
-        ]
+        ],
     },
     create(context) {
         const { components = [], includeAllCustomComponents = false, } = context.options[0] || {};

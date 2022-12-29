@@ -1,6 +1,30 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const utils_1 = require("../utils");
+const interactiveHandlers = [
+    "click",
+    "contextmenu",
+    "dblclick",
+    "doubleclick",
+    "drag",
+    "dragend",
+    "dragenter",
+    "dragexit",
+    "dragleave",
+    "dragover",
+    "dragstart",
+    "drop",
+    "keydown",
+    "keypress",
+    "keyup",
+    "mousedown",
+    "mouseenter",
+    "mouseleave",
+    "mousemove",
+    "mouseout",
+    "mouseover",
+    "mouseup",
+];
 const rule = {
     meta: {
         type: "problem",
@@ -39,6 +63,7 @@ const rule = {
                 const elementType = (0, utils_1.getElementType)(node);
                 if (elementTypes.includes(elementType) &&
                     !(0, utils_1.hasContent)(node, accessibleChildTypes, accessibleDirectives) &&
+                    ((0, utils_1.hasOnDirectives)(node, interactiveHandlers) || (0, utils_1.getElementAttributeValue)(node, "href")) &&
                     !(0, utils_1.hasAriaLabel)(node)) {
                     context.report({ node: node, messageId: "default" });
                 }
