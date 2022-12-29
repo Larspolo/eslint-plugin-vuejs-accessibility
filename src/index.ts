@@ -6,6 +6,7 @@ import ariaProps from "./rules/aria-props";
 import ariaRole from "./rules/aria-role";
 import ariaUnsupportedElements from "./rules/aria-unsupported-elements";
 import clickEventsHaveKeyEvents from "./rules/click-events-have-key-events";
+import clickEventsHaveRole from "./rules/click-events-have-role";
 import formControlHasLabel from "./rules/form-control-has-label";
 import headingHasContent from "./rules/heading-has-content";
 import iframeHasTitle from "./rules/iframe-has-title";
@@ -32,6 +33,7 @@ const plugin = {
     "aria-role": ariaRole,
     "aria-unsupported-elements": ariaUnsupportedElements,
     "click-events-have-key-events": clickEventsHaveKeyEvents,
+    "click-events-have-role": clickEventsHaveRole,
     "form-control-has-label": formControlHasLabel,
     "heading-has-content": headingHasContent,
     "iframe-has-title": iframeHasTitle,
