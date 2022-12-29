@@ -17,6 +17,7 @@ import mouseEventsHaveKeyEvents from "./rules/mouse-events-have-key-events";
 import noAccessKey from "./rules/no-access-key";
 import noAutofocus from "./rules/no-autofocus";
 import noDistractingElements from "./rules/no-distracting-elements";
+import noMousedown from "./rules/no-mousedown";
 import noOnchange from "./rules/no-onchange";
 import noRedundantRoles from "./rules/no-redundant-roles";
 import roleHasRequiredAriaProps from "./rules/role-has-required-aria-props";
@@ -44,6 +45,7 @@ const plugin = {
     "no-access-key": noAccessKey,
     "no-autofocus": noAutofocus,
     "no-distracting-elements": noDistractingElements,
+    "no-mousedown": noMousedown,
     "no-onchange": noOnchange,
     "no-redundant-roles": noRedundantRoles,
     "role-has-required-aria-props": roleHasRequiredAriaProps,

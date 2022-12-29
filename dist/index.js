@@ -21,6 +21,7 @@ const no_access_key_1 = __importDefault(require("./rules/no-access-key"));
 const no_autofocus_1 = __importDefault(require("./rules/no-autofocus"));
 const no_distracting_elements_1 = __importDefault(require("./rules/no-distracting-elements"));
 const no_onchange_1 = __importDefault(require("./rules/no-onchange"));
+const no_mousedown_1 = __importDefault(require("./rules/no-mousedown"));
 const no_redundant_roles_1 = __importDefault(require("./rules/no-redundant-roles"));
 const role_has_required_aria_props_1 = __importDefault(require("./rules/role-has-required-aria-props"));
 const tabindex_no_positive_1 = __importDefault(require("./rules/tabindex-no-positive"));
@@ -46,6 +47,7 @@ const plugin = {
         "no-access-key": no_access_key_1.default,
         "no-autofocus": no_autofocus_1.default,
         "no-distracting-elements": no_distracting_elements_1.default,
+        "no-mousedown": no_mousedown_1.default,
         "no-onchange": no_onchange_1.default,
         "no-redundant-roles": no_redundant_roles_1.default,
         "role-has-required-aria-props": role_has_required_aria_props_1.default,
