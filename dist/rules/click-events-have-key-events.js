@@ -24,12 +24,26 @@ const rule = {
         messages: {
             default: "Visible, non-interactive elements with click handlers must have at least one keyboard listener."
         },
-        schema: []
+        schema: [
+            {
+                type: "object",
+                properties: {
+                    components: {
+                        type: "array",
+                        items: { type: "string" }
+                    },
+                    includeAllCustomComponents: {
+                        type: "boolean",
+                    },
+                }
+            }
+        ]
     },
     create(context) {
+        const { components = [], includeAllCustomComponents = false, } = context.options[0] || {};
         return (0, utils_1.defineTemplateBodyVisitor)(context, {
             VElement(node) {
-                if (!isCustomComponent(node) &&
+                if ((includeAllCustomComponents || !isCustomComponent(node) || components.map(utils_1.makeKebabCase).includes((0, utils_1.getElementType)(node))) &&
                     (0, utils_1.hasOnDirective)(node, "click") &&
                     !(0, utils_1.isHiddenFromScreenReader)(node) &&
                     !(0, utils_1.isPresentationRole)(node) &&
