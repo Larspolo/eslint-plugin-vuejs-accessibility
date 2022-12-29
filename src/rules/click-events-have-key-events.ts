@@ -5,12 +5,14 @@ import htmlElements from "../utils/htmlElements.json";
 import {
   defineTemplateBodyVisitor,
   getElementAttribute,
+  getElementType,
   hasOnDirective,
   hasOnDirectives,
   isHiddenFromScreenReader,
   isInteractiveElement,
   isPresentationRole,
-  makeDocsURL
+  makeDocsURL,
+  makeKebabCase
 } from "../utils";
 
 // Why can I not import this like normal? Unclear.
@@ -38,13 +40,30 @@ const rule: Rule.RuleModule = {
       default:
         "Visible, non-interactive elements with click handlers must have at least one keyboard listener."
     },
-    schema: []
+    schema: [
+      {
+        type: "object",
+        properties: {
+          components: {
+            type: "array",
+            items: { type: "string" }
+          },
+          includeAllCustomComponents: {
+            type: "boolean",
+          },
+        }
+      }]
   },
   create(context) {
+    const {
+      components = [],
+      includeAllCustomComponents = false,
+    } = context.options[0] || {};
+
     return defineTemplateBodyVisitor(context, {
       VElement(node) {
         if (
-          !isCustomComponent(node) &&
+          (includeAllCustomComponents || !isCustomComponent(node) || components.map(makeKebabCase).includes(getElementType(node))) &&
           hasOnDirective(node, "click") &&
           !isHiddenFromScreenReader(node) &&
           !isPresentationRole(node) &&

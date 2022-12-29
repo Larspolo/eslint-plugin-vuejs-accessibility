@@ -24,7 +24,27 @@ makeRuleTester("click-events-have-key-events", rule, {
     "<div @click='void 0' role='presentation' />",
     "<div @click='void 0' role='none' />",
     "<TestComponent @click='void 0' />",
-    "<Button @click='void 0' />"
+    "<Button @click='void 0' />",
+    {
+      code: "<TestComponent @click='void 0' @keydown='void 0' />",
+      options: [{ includeAllCustomComponents: true }]
+    },
+    {
+      code: "<TestComponent />",
+      options: [{ includeAllCustomComponents: true }]
+    },
+    {
+      code: "<TestComponent @click='void 0' @keydown='void 0' />",
+      options: [{ components: ["TestComponent"] }]
+    },
+    {
+      code: "<TestComponent />",
+      options: [{ components: ["TestComponent"] }]
+    },
+    {
+      code: "<Button @click='void 0' />",
+      options: [{ components: ["TestComponent"] }]
+    },
   ],
   invalid: [
     "<div @click='toggle'>",
@@ -37,6 +57,21 @@ makeRuleTester("click-events-have-key-events", rule, {
     "<footer @click='void 0' />",
     "<div @click='void 0' aria-hidden='false' />",
     "<a @click='void 0' />",
-    "<a tabIndex='0' @click='void 0' />"
+    "<a tabIndex='0' @click='void 0' />",
+    {
+      code: "<TestComponent @click='void 0' />",
+      options: [{ includeAllCustomComponents: true }],
+      errors: [{ messageId: "default" }]
+    },
+    {
+      code: "<TestComponent @click='void 0' />",
+      options: [{ components: ["TestComponent"] }],
+      errors: [{ messageId: "default" }]
+    },
+    {
+      code: "<TestComponent @click='void 0' />",
+      options: [{ components: ["test-component"] }],
+      errors: [{ messageId: "default" }]
+    },
   ]
 });
