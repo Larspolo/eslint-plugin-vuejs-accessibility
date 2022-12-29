@@ -2,6 +2,7 @@ import type { Rule } from "eslint";
 import type { AST } from "vue-eslint-parser";
 import { ARIARoleDefinitionKey, dom, roles } from "aria-query";
 
+import htmlElements from "../utils/htmlElements.json";
 import {
   defineTemplateBodyVisitor,
   getAttributeValue,
@@ -11,8 +12,13 @@ import {
   hasOnDirectives,
   isHiddenFromScreenReader,
   isInteractiveElement,
-  makeDocsURL
+  makeDocsURL,
+  makeKebabCase
 } from "../utils";
+
+// Why can I not import this like normal? See click events have key events.
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const vueEslintParser = require("vue-eslint-parser");
 
 const interactiveRoles: ARIARoleDefinitionKey[] = [];
 
@@ -71,6 +77,18 @@ function isInteractiveRole(value: any): value is string {
     );
 }
 
+function isHtmlElementNode(node: AST.VElement) {
+  return node.namespace === vueEslintParser.AST.NS.HTML;
+}
+
+function isCustomComponent(node: AST.VElement) {
+  return (
+    (isHtmlElementNode(node) && !htmlElements.includes(node.rawName)) ||
+    !!getElementAttribute(node, "is")
+  );
+}
+
+
 function hasTabIndex(node: AST.VElement) {
   const attribute = getElementAttribute(node, "tabindex");
 
@@ -112,35 +130,29 @@ const rule: InteractiveSupportsFocus = {
       {
         type: "object",
         properties: {
-          tabbable: {
+          components: {
             type: "array",
-            items: {
-              type: "string",
-              enum: interactiveRoles,
-              default: [
-                "button",
-                "checkbox",
-                "link",
-                "searchbox",
-                "spinbutton",
-                "switch",
-                "textbox"
-              ]
-            },
-            uniqueItems: true,
-            additionalItems: false
-          }
+            items: { type: "string" }
+          },
+          includeAllCustomComponents: {
+            type: "boolean",
+          },
         }
       }
-    ]
+    ],
   },
   create(context) {
     return defineTemplateBodyVisitor(context, {
       VElement(node) {
+        const {
+          components = [],
+          includeAllCustomComponents = false,
+        } = context.options[0] || {};
+
         const role = getElementAttributeValue(node, "role");
 
         if (
-          dom.has(getElementType(node)) &&
+          (includeAllCustomComponents || !isCustomComponent(node) || components.map(makeKebabCase).includes(getElementType(node))) &&
           hasOnDirectives(node, interactiveHandlers) &&
           !hasTabIndex(node) &&
           !isDisabledElement(node) &&

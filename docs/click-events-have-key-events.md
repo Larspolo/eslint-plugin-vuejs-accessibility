@@ -4,7 +4,25 @@ Enforce `@click` is accompanied by at least one of the following: `@keyup`, `@ke
 
 ## Rule details
 
-This rule takes no arguments.
+This rule takes one optional object argument of type object:
+
+```json
+{
+  "rules": {
+    "vuejs-accessibility/click-events-have-role": [
+      "error",
+      {
+        "components": ["CustomComponent"],
+        "includeAllCustomComponents": true,
+      }
+    ]
+  }
+}
+```
+
+For the `components` option, these strings determine which custom components should also be checked. This is a good use case for libraries that are not well implemented.
+
+For the `includeAllCustomComponents` option, this boolean (default false) includes all custom components, not just the ones specified in the `components` option.
 
 ### Succeed
 

@@ -52,7 +52,8 @@ const rule: Rule.RuleModule = {
             type: "boolean",
           },
         }
-      }]
+      }
+    ],
   },
   create(context) {
     const {

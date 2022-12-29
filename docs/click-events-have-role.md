@@ -20,7 +20,7 @@ This rule takes one optional object argument of type object:
 }
 ```
 
-For the `components` option, these strings determine which custom components should also be checked for only having click events. This is a good use case when you have a wrapper component does not handle the click event properly.
+For the `components` option, these strings determine which custom components should also be checked. This is a good use case for libraries that are not well implemented.
 
 For the `includeAllCustomComponents` option, this boolean (default false) includes all custom components, not just the ones specified in the `components` option.
 

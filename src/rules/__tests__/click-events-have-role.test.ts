@@ -9,7 +9,6 @@ makeRuleTester("click-events-have-role", rule, {
     ...rule.interactiveRoles.map((role) => ({
       code: `<div role='${role}' tabindex='0' @click='foo' />`,
     })),
-    "<div role='tab' tabindex='0' @click='foo' />",
   ],
   invalid: [
     ...rule.interactiveHandlers.flatMap((handler) => ({
@@ -20,5 +19,20 @@ makeRuleTester("click-events-have-role", rule, {
         code: `<div role="non-interactive-role" @${handler}='foo' />`,
         errors: [{ messageId: "default" }]
     })),
+    {
+      code: "<TestComponent @click='void 0' />",
+      options: [{ includeAllCustomComponents: true }],
+      errors: [{ messageId: "default" }]
+    },
+    {
+      code: "<TestComponent @click='void 0' />",
+      options: [{ components: ["TestComponent"] }],
+      errors: [{ messageId: "default" }]
+    },
+    {
+      code: "<TestComponent @click='void 0' />",
+      options: [{ components: ["test-component"] }],
+      errors: [{ messageId: "default" }]
+    },
   ]
 });
